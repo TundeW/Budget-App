@@ -4,10 +4,13 @@ let budgetButton = document.getElementById('budget_button');
 
 let expenseButton = document.getElementById('expense_button');
 
+let resetButton = document.getElementById('reset_button');
 
 budgetButton.addEventListener("click", addBudget);
 
 expenseButton.addEventListener('click', addExpense);
+
+resetButton.addEventListener('click', reset);
 
 function addBudget() {
     alert('you selected the Add Budget button');
@@ -16,21 +19,29 @@ function addBudget() {
     budgetValue.innerHTML = budgetInput.value;
 
     calculateBalance();
+
+    budgetInput.value = ''
 }
 
 function addExpense() {
     alert('you selected the Add expense button');
 
-    let expenseTextInput = document.getElementById('expense_det').value;
-    let expenseValueInput = document.getElementById('expense_input_value').value;
+
 
     addToExpenseList();
 
 
 
-    //displayTotalExpense();
+    displayTotalExpense();
 
-    //calculateBalance();
+    calculateBalance();
+    let expenseTextInput = document.getElementById('expense_det');
+    let expenseValueInput = document.getElementById('expense_input_value');
+
+    expenseTextInput.value = ''
+    expenseValueInput.value= ''
+
+
 
 
 
@@ -67,4 +78,51 @@ function addToExpenseList() {
     expenseRow.appendChild(expenseItem3);
 
     expenseTable.appendChild(expenseRow);
+
+    removeButton.addEventListener('click', deleteExpenseItem);
+    function deleteExpenseItem() {
+        expenseRow.classList.add("delete");
+        //document.getElementById("row1").remove();
+        apple = document.getElementsByClassName('delete')
+        apple.remove();
+        displayTotalExpense();
+        calculateBalance();
+
+    }
+}
+
+function displayTotalExpense() {
+    arr = document.getElementById('expense_table');
+    //alert(arr)
+    sum = 0;
+    for (let i = 1; i < arr.rows.length; i++) {
+        sum = sum + parseFloat(arr.rows[i].cells[1].innerHTML);
+    }
+    let expenseValue = document.getElementById('expense');
+    expenseValue.innerHTML = sum;
+
+}
+
+function reset() {
+    alert('you have clicked the reset button')
+    let budgetValue = document.getElementById('budget');
+    let expenseValue = document.getElementById('expense');
+    let balanceValue = document.getElementById('balance');
+    budgetValue.innerHTML = 0
+    expenseValue.innerHTML = 0
+    balanceValue.innerHTML = 0
+
+    let expenseTextInput = document.getElementById('expense_det');
+    let expenseValueInput = document.getElementById('expense_input_value');
+    let budgetInput = document.getElementById('budget_input_value');
+
+    expenseTextInput.value = ''
+    expenseValueInput.value= ''
+    budgetInput.value = ''
+
+    arr = document.getElementById('expense_table');
+    length = arr.rows.length
+    for (let i = 1; i < length; i=i+1) {
+        arr.deleteRow(1);
+    }
 }
